@@ -2,6 +2,7 @@ from django import forms
 from .models import Transalation
 from django.conf import settings
 
+
 class TransalationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -11,11 +12,15 @@ class TransalationForm(forms.ModelForm):
         if ins:
             text = ins.text
         for i in (settings.LANGUAGES):
-            field_name = 'article_title_(%s)' % (i[0],)
-            self.base_fields[field_name] = forms.CharField(initial= text.get(i[0], ''))
-            self.fields[field_name] = forms.CharField(initial= text.get(i[0], ''))
+            field_name = 'article_title_(%s)' % (i[0])
+            self.base_fields[field_name] = forms.CharField(
+                initial=text.get(i[0], '')
+            )
+            self.fields[field_name] = forms.CharField(
+                initial=text.get(i[0], '')
+            )
 
-    def save(self, commit: bool = True) :
+    def save(self, commit: bool = True):
         instance = super(TransalationForm, self).save(commit=False)
         out = {}
         for i in (settings.LANGUAGES):
